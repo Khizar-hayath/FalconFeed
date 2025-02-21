@@ -2,93 +2,34 @@ import React, { Component } from 'react';
 import NewsItem from './NewsItem';
 
 export class News extends Component {
-  articles=[{
-    "status": "ok",
-    "totalResults": 4,
-    "articles": [
-    {
-    "source": {
-    "id": null,
-    "name": "Android Central"
-    },
-    "author": "nandika.iyerravi@futurenet.com (Nandika Ravi)",
-    "title": "Humane will disable AI pins after $116 million buyout, leaving early adopters high and dry",
-    "description": "Humane announced on Tuesday that it will be shutting down and moving on to other business endeavors while HP acquires it for $116 million.",
-    "url": "https://www.androidcentral.com/apps-software/humane-announces-its-departure-from-the-ai-scene-hp-acquires-it-for-usd116-million",
-    "urlToImage": "https://cdn.mos.cms.futurecdn.net/qg7zgqqYynueYAgqoPHbsb-1200-80.jpg",
-    "publishedAt": "2025-02-20T00:06:08Z",
-    "content": "What you need to know\r\n<ul><li>Humane has discontinued the production of its AI wearable pin as it has shifted its business priorities.</li><li>The company says that it will be deleting all consumer … [+3632 chars]"
-    },
-    {
-    "source": {
-    "id": "business-insider",
-    "name": "Business Insider"
-    },
-    "author": "Robin Kaiser-Schatzlein",
-    "title": "Luigi Mangione was mad about something bigger than healthcare",
-    "description": "The manifesto found after the UnitedHealthcare shooting doesn't gripe about insurance. It rails against monopolies.",
-    "url": "https://www.businessinsider.com/luigi-mangione-unitedhealthcare-ceo-shooting-manifesto-big-business-monopolies-2025-2",
-    "urlToImage": "https://i.insider.com/67730cd7ca1058716a5ec151?width=1200&format=jpeg",
-    "publishedAt": "2025-02-20T09:07:02Z",
-    "content": "Cunaplus_M.Faba/Getty, fatido/Getty, Hugo Kurk/Getty, Tyler Le/BI\r\nThe manifesto found on Luigi Mangione before he was charged with killing UnitedHealthcare CEO Brian Thompson doesn't spend much time… [+8806 chars]"
-    },
-    {
-    "source": {
-    "id": "business-insider",
-    "name": "Business Insider"
-    },
-    "author": "Katherine Tangalakis-Lippert",
-    "title": "Meet Andrew Ferguson, the new chairman of the FTC who has vowed to go after Big Tech's 'vendetta against competition'",
-    "description": "President Donald Trump appointed Andrew Ferguson to lead the Federal Trade Commission. Ferguson, a Republican, has vowed to take on Big Tech.",
-    "url": "https://www.businessinsider.com/andrew-ferguson-new-chairman-federal-trade-commission-antitrust-big-tech-2025-2",
-    "urlToImage": "https://i.insider.com/67a140dceb4be2fff9a35d40?width=1200&format=jpeg",
-    "publishedAt": "2025-02-20T01:24:11Z",
-    "content": "Andrew Ferguson has vowed to pare back the FTC's recent antitrust agenda while targeting \"Big Tech's vendetta against competition and free speech.\"Courtesy of the United States Federal Trade Commissi… [+7161 chars]"
-    },
-    {
-    "source": {
-    "id": null,
-    "name": "Daringfireball.net"
-    },
-    "author": "John Gruber",
-    "title": "★ Thoughts and Observations on Today’s iPhone 16e Announcement",
-    "description": "The iPhone 16e is arguably just plain a better phone than the iPhone 15, and I think it’s almost inarguably a better value at $100 less.",
-    "url": "https://daringfireball.net/2025/02/thoughts_and_observations_on_todays_iphone_16e_announcement",
-    "urlToImage": "https://daringfireball.net/graphics/df-wide-card.png",
-    "publishedAt": "2025-02-20T04:42:10Z",
-    "content": "Last week Tim Cook teased a “newest member of the family” product announcement coming today; turns out it was the iPhone 16e, a device whose name briefly paralyzed me with indecision regarding how to… [+17250 chars]"
-    }
-    ]
-  }]
   constructor(){
     super();
     console.log("I am a constructor");
     this.state={
-      articles: this.articles,
+      articles: [],
       loading: false 
     };
+  }
+
+  async componentDidMount(){
+    console.log("ComponentDidMount");
+    let url = "https://newsapi.org/v2/top-headlines?country=us&apiKey=acf658acc68b4218bd87ef623db45cab";
+    let data = await fetch(url);
+    let parsedData = await data.json()
+    console.log(parsedData);
+    this.setState({ articles: parsedData.articles });
   }
 
   render() {
     return (
       <div className='container'>
         <h2>NewsMonkey - Top Headlines</h2>  {/* NewsDuck ?? */}
-        This is a news component
         <div className="row">
-          <div className="col-md-4">
-            <NewsItem title="mTitle" description="mydesc This is newsItem component" 
-            imageurl="https://cdn.mos.cms.futurecdn.net/qg7zgqqYynueYAgqoPHbsb-1200-80.jpg" newsUrl='todo'/>
-          </div>
-
-          <div className="col-md-4">
-            <NewsItem title="mTitle" description="mydesc This is newsItem component"/>
-          </div>
-
-          <div className="col-md-4">
-            <NewsItem title="mTitle" description="mydesc This is newsItem component"/>
-          </div>
+        {this.state.articles.map((element)=> {
+          return <div className="col-md-4" key={element.url}>
+          <NewsItem title={element.title?element.title:""} description={element.description?element.description:""} imageurl={element.urlToImage} newsUrl={element.url}/></div>
+        })}
         </div>
-        
       </div>
     )
   }
