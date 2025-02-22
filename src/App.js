@@ -11,14 +11,15 @@ import {
 
 
 export default class App extends Component {
-  pageSize = 40;
+  pageSize = 20;
   render() {
     return (
         <div>
         <Router>
         <Navbar/>
           <Routes>
-            <Route exact path="/" element={<News pageSize={this.pageSize} key="science" country="us" category="science"/>} />
+            {/* When props to be used here, and when in NewsItem?*/}
+            <Route exact path="/" element={<News pageSize={this.pageSize} key="science" country="us" category="science"/>} />  
             <Route exact path="/business" element={<News pageSize={this.pageSize} key="business" country="us" category="business"/>} />
             <Route exact path="/entertainment" element={<News pageSize={this.pageSize} key="entertainment" country="us" category="entertainment"/>} />
             <Route exact path="/general" element={<News pageSize={this.pageSize} key="general" country="us" category="general"/>} />
