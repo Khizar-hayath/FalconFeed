@@ -28,7 +28,7 @@ const News= (props) => {
   }
   //UseEffect instead of ComponentDidMount
   useEffect(() => {
-    document.title = `NewsMonkey - ${props.category.charAt(0).toUpperCase() + props.category.slice(1)}`;
+    document.title = `FalconFeed - ${props.category.charAt(0).toUpperCase() + props.category.slice(1)}`;
     updateNews();
   }, []); 
   // [] is the condition for the useEffect to run. If it is empty, it will run only once when the component is mounted.
@@ -44,7 +44,7 @@ const News= (props) => {
 
   return (
     <>
-      <h1 className='text-center' style={{ margin: "35px", marginTop: "45px" }}>NewsMonkey - Top {props.category.charAt(0).toUpperCase() + props.category.slice(1)} headlines</h1>  {/* NewsDuck ?? */}
+      <h1 className='text-center' style={{ margin: "35px", marginTop: "45px" }}>FalconFeed - Top {props.category.charAt(0).toUpperCase() + props.category.slice(1)} headlines</h1>  {/* NewsDuck ?? */}
       {loading && <Spinner/>}
 
       <InfiniteScroll
